@@ -5,29 +5,29 @@ Code Samples comapred to C++:
 
 variable declaration:
 
-'''
+```cpp
 int a = 5;
 bool b = false;
 std::string c = "hello";
-'''
+```
 
-'''
+```rust
 let a = 5
 let b = false
 let c = "hello"
-'''
+```
 
 for loop:
 
-'''
+```cpp
 for (int i = 0; i < 10; i++)
 {
 	std::cout << "hello\n";
 }
-'''
+```
 
-'''
+```rust
 for i = 0 to 10 inc 1 then
 	std::println("hello")
 end
-'''
+```
