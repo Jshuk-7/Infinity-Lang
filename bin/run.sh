@@ -1,1 +1,1 @@
-python3 Infinity.Lang.py
+python3 ../Infinity.Lang/Infinity.Lang.py
