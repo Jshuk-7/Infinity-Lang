@@ -5,7 +5,7 @@ Code Samples comapred to C++:
 
 variable declaration:
 
-'''c++
+'''cpp
 int a = 5;
 bool b = false;
 std::string c = "hello";
