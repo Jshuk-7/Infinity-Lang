@@ -4,6 +4,8 @@ from string_with_arrows import string_with_arrows as arrow_str
 DIGITS          = '0123456789'
 LETTERS         = string.ascii_letters
 LETTERS_DIGITS  = LETTERS + DIGITS
+FUNC_CHARACTERS  = '_:'
+VERSION         = "0.1.0"
 
 class Error:
 	def __init__(self, pos_start, pos_end, error_name, details) -> None:
@@ -250,7 +252,7 @@ class Lexer:
 		id_str = ''
 		pos_start = self.pos.copy()
 
-		while self.current_char != None and self.current_char in LETTERS_DIGITS + '_':
+		while self.current_char != None and self.current_char in LETTERS_DIGITS + FUNC_CHARACTERS:
 			id_str += self.current_char
 			self.advance()
 
@@ -298,6 +300,17 @@ class Lexer:
 		if self.current_char == '=':
 			self.advance()
 			tok_type = TT_LTE
+
+		return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
+
+	def make_greater_than(self):
+		tok_type = TT_GT
+		pos_start = self.pos.copy()
+		self.advance()
+
+		if self.current_char == '=':
+			self.advance()
+			tok_type = TT_GTE
 
 		return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
 
@@ -457,8 +470,6 @@ class Parser:
 				"Expected '+', '-', '*', '/', '^', '==', '!=', '<', '>', <=', '>=', 'and' or 'or'"
 			))
 		return res
-
-	###################################
 
 	def expr(self):
 		res = ParseResult()
@@ -1022,7 +1033,7 @@ class Number(Value):
 			if other.value == 0:
 				return None, RTError(
 					other.pos_start, other.pos_end,
-					'Division by zero',
+					'Division by zero results in undefined behavior',
 					self.context
 				)
 
@@ -1144,14 +1155,14 @@ class Function(Value):
 		if len(args) > len(self.arg_names):
 			return res.failure(RTError(
 				self.pos_start, self.pos_end,
-				f"{len(args) - len(self.arg_names)} too many args passed into '{self.name}'",
+				f"Function '{self.name}', expected {len(self.arg_names)} arguments, found {len(args)}",
 				self.context
 			))
 		
 		if len(args) < len(self.arg_names):
 			return res.failure(RTError(
 				self.pos_start, self.pos_end,
-				f"{len(self.arg_names) - len(args)} too few args passed into '{self.name}'",
+				f"Function '{self.name}', expected {len(self.arg_names)} arguments, found {len(args)}",
 				self.context
 			))
 
@@ -1261,11 +1272,11 @@ class Interpreter:
 		if node.op_tok.type == TT_PLUS:
 			result, error = left.added_to(right)
 		elif node.op_tok.type == TT_MINUS:
-			result, error = left.subtracted_by(right)
+			result, error = left.subbed_by(right)
 		elif node.op_tok.type == TT_MUL:
 			result, error = left.multed_by(right)
 		elif node.op_tok.type == TT_DIV:
-			result, error = left.divided_by(right)
+			result, error = left.dived_by(right)
 		elif node.op_tok.type == TT_POW:
 			result, error = left.powed_by(right)
 		elif node.op_tok.type == TT_EE:
@@ -1300,7 +1311,7 @@ class Interpreter:
 		error = None
 
 		if node.op_tok.type == TT_MINUS:
-			number, error = number.multiplied_by(Number(-1))
+			number, error = number.multed_by(Number(-1))
 		elif node.op_tok.matches(TT_KEYWORD, 'not'):
 			number, error = number.notted()
 
@@ -1410,14 +1421,18 @@ class Interpreter:
 		if res.error: return res
 		return res.success(return_value)
 
+
+def version() -> str:
+	return VERSION
+
 # GLOBAL LANGUAGE SYMBOLS
-
 global_symbol_table = SymbolTable()
-global_symbol_table.set('NULL', Number(0))
-global_symbol_table.set('true', Number(1))
+global_symbol_table.set('null', Number(0))
 global_symbol_table.set('false', Number(0))
+global_symbol_table.set('true', Number(1))
 
 
+# Parse and run an external file
 def run(file_, text):
 	lexer = Lexer(file_, text)
 	tokens, error = lexer.make_tokens()
