@@ -3,10 +3,10 @@ import infinity
 
 class Shell(object):
 	def __init__(self) -> None:
+		self.using_platform_windows = True
 		self.using_git_bash = True
-		self.using_platform_windows = False
 		self.print_info()
-		self.execute_code()
+		self.execute_program()
 
 	def print_info(self):
 		if self.using_git_bash:
@@ -15,12 +15,12 @@ class Shell(object):
 			os.system("cls")
 
 		if self.using_platform_windows:
-			print(f"Infinity Lang {infinity.version()}, running MSVC 64 bit (INTEL64) on platform Win32")
+			print(f"Infinity Lang {infinity.version()}, running G++ 64 bit (INTEL64) on platform win32")
 		else:
-			print(f"Infinity Lang {infinity.version()}, running Clang 64 bit (INTEL64) on platform Darwin")
+			print(f"Infinity Lang {infinity.version()}, running Clang 64 bit (INTEL64) on platform darwin")
 		print("Type 'help', 'credits' or 'license' for more information")
 
-	def execute_code(self):
+	def execute_program(self):
 		while 1:
 			text = input('>>> ')
 
