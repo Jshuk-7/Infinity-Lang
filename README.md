@@ -28,10 +28,10 @@ let a = 5
 if a == 5 then do_some_work() elif a == 6 then do_other_work() else do_work()
 
 if a == 5 then
-	do_some_work()
+do_some_work()
 end
 elif a == 6 then
-	do_other_work()
+do_other_work()
 end
 else do_work()
 ```
@@ -42,15 +42,15 @@ int a = 5;
 
 if (a == 5)
 {
-	do_some_work();
+do_some_work();
 }
 else if (a == (5 + 1))
 {
-	do_other_work();
+do_other_work();
 }
 else
 {
-	do_work();
+do_work();
 }
 ```
 
@@ -59,7 +59,7 @@ else
 #### Infinity
 ```rust
 for i = 0 to 10 inc 1 then
-	std::println("hello")
+std::println("hello")
 end
 ```
 
@@ -67,7 +67,7 @@ end
 ```cpp
 for (int i = 0; i < 10; i++)
 {
-	std::cout << "hello\n";
+std::cout << "hello\n";
 }
 ```
 
@@ -79,7 +79,7 @@ let a = 5
 while a == 5 then do_work()
 
 while a == 5 then
-	do_work()
+do_work()
 end
 ```
 
@@ -88,7 +88,7 @@ end
 int a = 5;
 while (a == 5)
 {
-	do_work();
+do_work();
 }
 ```
 
@@ -99,7 +99,7 @@ while (a == 5)
 fn foo(a) -> a
 
 fn foo(a)
-	return a
+return a
 end
 ```
 
@@ -107,6 +107,6 @@ end
 ```cpp
 int foo(int a)
 {
-	return a;
+return a;
 }
 ```
