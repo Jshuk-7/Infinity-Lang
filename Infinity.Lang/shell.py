@@ -9,12 +9,9 @@ class Shell(object):
 		self.execute_program()
 
 	def print_info(self):
-		if self.using_git_bash:
-			os.system("clear")
-		else:
-			os.system("cls")
+		os.system("cls" if os.name == 'nt' else 'clear')
 
-		if self.using_platform_windows:
+		if os.name == 'nt':
 			print(f"Infinity Lang {infinity.version()}, running G++ 64 bit (INTEL64) on platform win32")
 		else:
 			print(f"Infinity Lang {infinity.version()}, running Clang 64 bit (INTEL64) on platform darwin")
@@ -24,16 +21,8 @@ class Shell(object):
 		while 1:
 			text = input('>>> ')
 
-			if text == '':
-				continue
-			elif text == 'clear()':
-				os.system("clear")
-				continue
-			elif text == "std::version()":
-				print(f'Infinity Lang: {infinity.version()}')
-				continue
-			elif text == 'exit()':
-				quit()
+			if text == '': continue
+			elif text == 'exit()': quit()
 
 			result, error = infinity.run('<stdin>', text)
 
