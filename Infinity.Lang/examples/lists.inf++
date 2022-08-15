@@ -15,9 +15,9 @@ fn join(list, separator)
 end;
 
 fn main()
-    let list = ["Hello", " Welcome", " World!"];
+    let list = ["Hello", "Welcome", "World!"];
 
-    std::println(std::to_string(list));
+    std::println(list);
     std::println("What character(s) would you like to join the list with?");
     let response = std::input();
     std::println("Joined list with " + "'" + response + "'");

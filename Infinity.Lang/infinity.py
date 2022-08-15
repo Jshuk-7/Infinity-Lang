@@ -1893,9 +1893,9 @@ class BuiltInFunction(BaseFunction):
         return RTResult().success(List(value.elements))
     execute_list_new.arg_names = ['value']
 
-    def execute_push(self, exec_ctx):
-        list_ = exec_ctx.symbol_table.get("list")
-        value = exec_ctx.symbol_table.get("value")
+    def execute_push_back(self, exec_ctx):
+        list_ = exec_ctx.symbol_table.get('list')
+        value = exec_ctx.symbol_table.get('value')
 
         if not isinstance(list_, List):
             return RTResult().failure(
@@ -1904,23 +1904,67 @@ class BuiltInFunction(BaseFunction):
 
         list_.elements.append(value)
         return RTResult().success(Number.null)
-    execute_push.arg_names = ["list", "value"]
+    execute_push_back.arg_names = ['list', 'value']
 
-    def execute_pop(self, exec_ctx):
+    def execute_pop_back(self, exec_ctx):
+        list_ = exec_ctx.symbol_table.get('list')
+
+        if not isinstance(list_, List):
+            return RTResult().failure(
+                RTError(self.pos_start, self.pos_end, f"Expected list, found '{list_.value}'", exec_ctx)
+            )
+
+        popped_value = list_.elements.pop(len(list_.elements) - 1)
+
+        if not isinstance(popped_value, List):
+            return RTResult().success(popped_value)
+        else:
+            return RTResult().success(popped_value.elements)
+    execute_pop_back.arg_names = ['list']
+
+    def execute_pop_at(self, exec_ctx):
         list_, index = self.make_list_and_index(exec_ctx)
 
         try:
-            element = list_.elements.pop(index.value)
+            popped_value = list_.elements.pop(index.value)
         except:
-            return RTResult().failure(
-                RTError(
-                    self.pos_start, self.pos_end,
-                    f"\nSEGMENTATION FAULT:\nElement at index '{index.value}' is out of bounds",
-                    exec_ctx)
-                )
+            return RTResult().failure(RTError(
+                self.pos_start, self.pos_end,
+                f"\nSEGMENTATION FAULT:\nElement at index '{index.value}' is out of bounds",
+                exec_ctx)
+            )
 
-        return RTResult().success(element)
-    execute_pop.arg_names = ["list", "index"]
+        return RTResult().success(popped_value)
+    execute_pop_at.arg_names = ["list", "index"]
+
+    def execute_push_front(self, exec_ctx):
+        list_ = exec_ctx.symbol_table.get('list')
+        value = exec_ctx.symbol_table.get('value')
+
+        if not isinstance(list_, List):
+            return RTResult().failure(
+                RTError(self.pos_start, self.pos_end, "First argument must be of type list", exec_ctx)
+            )
+
+        list_.elements.insert(0, value)
+        return RTResult().success(Number.null)
+    execute_push_front.arg_names = ['list', 'value']
+
+    def execute_pop_front(self, exec_ctx):
+        list_ = exec_ctx.symbol_table.get('list')
+
+        if not isinstance(list_, List):
+            return RTResult().failure(
+                RTError(self.pos_start, self.pos_end, f"Expected list, found '{list_.value}'", exec_ctx)
+            )
+
+        popped_value = list_.elements.pop(0)
+
+        if not isinstance(popped_value, List):
+            return RTResult().success(popped_value)
+        else:
+            return RTResult().success(List(popped_value.elements))
+    execute_pop_front.arg_names = ['list']
 
     def execute_extend(self, exec_ctx):
         listA = exec_ctx.symbol_table.get("listA")
@@ -1953,7 +1997,10 @@ class BuiltInFunction(BaseFunction):
         elements: list = list_.elements
         elements.insert(index.value, new_value)
 
-        return RTResult().success(elements[index.value])
+        if not isinstance(elements[index], List):
+            return RTResult().success(elements[index.value])
+        else:
+            return RTResult().success(elements[index.elements])
     execute_insert.arg_names = ["list", "index", "value"]
 
     def execute_update(self, exec_ctx):
@@ -2127,7 +2174,7 @@ class BuiltInFunction(BaseFunction):
     execute_run.arg_names = ["fn"]
 
     def execute_exit(self, exec_ctx):
-        exit_code: Number = Number.null
+        exit_code: Number = exec_ctx.symbol_table.get('exit_code')
 
         if not isinstance(exit_code, Number):
             return RTResult().failure(RTError(
@@ -2148,8 +2195,8 @@ BuiltInFunction.println_ret     = BuiltInFunction("println_ret")
 BuiltInFunction.input           = BuiltInFunction("input")
 BuiltInFunction.input_int       = BuiltInFunction("input_int")
 BuiltInFunction.clear           = BuiltInFunction("clear")
-BuiltInFunction.atoi           = BuiltInFunction("atoi")
-BuiltInFunction.itoa           = BuiltInFunction("itoa")
+BuiltInFunction.atoi            = BuiltInFunction("atoi")
+BuiltInFunction.itoa            = BuiltInFunction("itoa")
 BuiltInFunction.to_int          = BuiltInFunction("to_int")
 BuiltInFunction.to_string       = BuiltInFunction("to_string")
 BuiltInFunction.string_to_list  = BuiltInFunction("string_to_list")
@@ -2158,8 +2205,11 @@ BuiltInFunction.is_instance     = BuiltInFunction("is_instance")
 BuiltInFunction.int_new         = BuiltInFunction("int_new")
 BuiltInFunction.string_new      = BuiltInFunction("string_new")
 BuiltInFunction.list_new        = BuiltInFunction("list_new")
-BuiltInFunction.push            = BuiltInFunction("push")
-BuiltInFunction.pop             = BuiltInFunction("pop")
+BuiltInFunction.push_back       = BuiltInFunction("push_back")
+BuiltInFunction.pop_back        = BuiltInFunction("pop_back")
+BuiltInFunction.pop_at          = BuiltInFunction("pop_at")
+BuiltInFunction.push_front      = BuiltInFunction("push_front")
+BuiltInFunction.pop_front       = BuiltInFunction("pop_front")
 BuiltInFunction.extend          = BuiltInFunction("extend")
 BuiltInFunction.insert          = BuiltInFunction("insert")
 BuiltInFunction.update          = BuiltInFunction("update")
@@ -2366,8 +2416,7 @@ class Interpreter:
             i += step_value.value
 
             value = res.register(self.visit(node.body_node, context))
-            if res.should_return(
-            ) and res.loop_should_continue == False and res.loop_should_break == False:
+            if res.should_return() and res.loop_should_continue == False and res.loop_should_break == False:
                 return res
 
             if res.loop_should_continue:
@@ -2493,11 +2542,15 @@ global_symbol_table.set("std::string_to_list", BuiltInFunction.string_to_list)
 global_symbol_table.set("std::list_to_string", BuiltInFunction.list_to_string)
 
 #! List Methods
-global_symbol_table.set("std::list::push", BuiltInFunction.push)
-global_symbol_table.set("std::list::pop", BuiltInFunction.pop)
+global_symbol_table.set("std::list::push_back", BuiltInFunction.push_back)
+global_symbol_table.set("std::list::pop_back", BuiltInFunction.pop_back)
+global_symbol_table.set("std::list::pop_at", BuiltInFunction.pop_at)
+global_symbol_table.set("std::list::push_front", BuiltInFunction.push_front)
+global_symbol_table.set("std::list::pop_front", BuiltInFunction.pop_front)
 global_symbol_table.set("std::list::extend", BuiltInFunction.extend)
 global_symbol_table.set("std::list::insert", BuiltInFunction.insert)
 global_symbol_table.set("std::list::update", BuiltInFunction.update)
+# NOTE: std::list::sort and std::list::sort_reverse modify the list
 global_symbol_table.set("std::list::sort", BuiltInFunction.sort)
 global_symbol_table.set("std::list::sort_reverse", BuiltInFunction.sort_reverse)
 global_symbol_table.set("std::list::clear", BuiltInFunction.list_clear)

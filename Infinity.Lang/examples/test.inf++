@@ -1,0 +1,7 @@
+fn main()
+    
+
+    return 0;
+end;
+
+main();
