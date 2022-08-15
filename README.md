@@ -1,15 +1,19 @@
 # Infinity-Lang
-Infinity Programming Language. A simple weakly-typed, interpreted programming language.
+Infinity Programming Language. A simple weakly-typed, and interpreted language.
+
+---
 
 Code Samples comapred to C++:
+
+---
 
 ### Variable declaration:
 
 #### Infinity
 ```rust
-let a = 5
-let b = false
-let c = "hello"
+let a = 5;
+let b = false;
+let c = "hello";
 ```
 
 #### C++
@@ -19,21 +23,21 @@ bool b = false;
 std::string c = "hello";
 ```
 
+---
+
 ### If statement:
 
 #### Infinity
 ```rust
-let a = 5
+let a = 5;
 
-if a == 5 then do_some_work() elif a == 6 then do_other_work() else do_work()
+if a == 5 then do_some_work() elif a == 6 then do_other_work() else do_work();
 
 if a == 5 then
-    do_some_work()
-end
+    do_some_work();
 elif a == 6 then
     do_other_work()
-end
-else do_work()
+else do_work();
 ```
 
 #### C++
@@ -54,33 +58,37 @@ else
 }
 ```
 
+---
+
 ### For loop:
 
 #### Infinity
 ```rust
 for i = 0 to 10 inc 1 then
-    std::println("hello")
-end
+    std::println("working...");
+end;
 ```
 
 #### C++
 ```cpp
 for (int i = 0; i < 10; i++)
 {
-    std::cout << "hello\n";
+    std::cout << "working...\n";
 }
 ```
+
+---
 
 ### While loop:
 
 #### Infinity
 ```rust
-let a = 5
-while a == 5 then do_work()
+let a = 5;
+while a == 5 then do_work();
 
 while a == 5 then
-    do_work()
-end
+    do_work();
+end;
 ```
 
 #### C++
@@ -92,15 +100,17 @@ while (a == 5)
 }
 ```
 
+---
+
 ### Function declaration:
 
 #### Infinity
 ```rust
-fn foo(a) -> a
+fn foo(a) -> a;
 
 fn foo(a)
-    return a
-end
+    return a;
+end;
 ```
 
 #### C++
