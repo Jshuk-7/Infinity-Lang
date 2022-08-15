@@ -1,0 +1,30 @@
+fn len(list) -> std::list::len(list);
+
+fn join(list, separator)
+    let result = "";
+    let length = len(list);
+
+    for i = 0 to length then
+        let result = result + list/i;
+        let last_element = (length - 1);  
+
+        if i != last_element then let result = result + separator;
+    end;
+
+    return result;
+end;
+
+fn main()
+    let list = ["Hello", " Welcome", " World!"];
+
+    std::println(std::to_string(list));
+    std::println("What character(s) would you like to join the list with?");
+    let response = std::input();
+    std::println("Joined list with " + "'" + response + "'");
+    let response = response + " ";
+    std::println(join(list, response));
+
+    return 0;
+end;
+
+main();

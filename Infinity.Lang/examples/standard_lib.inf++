@@ -1,0 +1,22 @@
+fn sort_list()
+    let list = [3, 82, 17, 27, 26, 47, 75, 983, 293, 218];
+
+    std::println(list);
+    std::println("Sorting list...");
+
+    std::list::sort(list);
+    std::println(list);
+
+    std::println("Sorting list in reverse...")
+
+    std::list::sort_reverse(list);
+    std::println(list);
+end;
+
+fn main()
+    sort_list();
+
+    return 0;
+end;
+
+main();

@@ -12,21 +12,22 @@ class Shell(object):
 		os.system("cls" if os.name == 'nt' else 'clear')
 
 		if os.name == 'nt':
-			print(f"Infinity Lang {infinity.version()}, running G++ 64 bit (INTEL64) on platform win32")
+			print(f"{infinity.version()}, running G++ 64 bit (INTEL64) on platform win32")
 		else:
-			print(f"Infinity Lang {infinity.version()}, running Clang 64 bit (INTEL64) on platform darwin")
+			print(f"{infinity.version()}, running Clang 64 bit (INTEL64) on platform darwin")
 		print("Type 'help', 'credits' or 'license' for more information")
 
 	def execute_program(self):
 		while 1:
 			text = input('>>> ')
 
-			if text == '': continue
-			elif text == 'exit()': quit()
-
+			if text.strip() == '': continue
 			result, error = infinity.run('<stdin>', text)
 
 			if error:
 				print(error.as_string())
 			elif result:
-				print(result)
+				if len(result.elements) == 1:
+					print(repr(result.elements[0]))
+				else:
+					print(repr(result))

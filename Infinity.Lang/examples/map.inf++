@@ -1,0 +1,30 @@
+#// map will call the func on each element in the list
+#// and return a copy of the orignal list
+fn map(list, func)
+	let length = std::list::len(list);
+
+    for i = 0 to length then
+		std::list::update(list, i, func(list/i));
+    end;
+
+	return list;
+end;
+
+fn multiple_of_ten(num)
+	let num = num * 10;
+	return num;
+end;
+
+fn main()
+	let list = [1, 2, 3, 4, 5];
+
+	let list = map(list, multiple_of_ten);
+
+	for i = 0 to std::list::len(list) then
+		std::println(list/i);
+	end;
+
+    return 0;
+end;
+
+main();

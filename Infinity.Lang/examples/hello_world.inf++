@@ -1,0 +1,13 @@
+fn unit_test()
+	return NULL;
+end;
+
+fn main()
+	let list = for i = 0 to 10 then 2 ^ i;
+
+	std::println(list);
+
+	return 0;
+end;
+
+main();

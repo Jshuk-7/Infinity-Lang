@@ -1,0 +1,27 @@
+#// this function will return NULL if it can't find the target
+#// so only use this if you're sure the target is not the first element in the list
+fn find(list, target)
+    let length = std::list::len(list);
+
+    for i = 0 to length then
+        if (list/i) == target then
+            return i;
+        end;
+    end;
+
+    return NULL;
+end;
+
+fn main()
+    let list = [1, 2, 3, 4, 5];
+
+    let result = find(list, 2);
+
+    if result != NULL then
+        std::println(result);
+    end;
+
+    return 0;
+end;
+
+main();

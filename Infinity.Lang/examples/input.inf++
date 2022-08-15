@@ -1,0 +1,17 @@
+fn greet_user(name)
+	let string = "Hello " + name + ", it's nice to meet you!";
+
+	std::println(string);
+end;
+
+fn main()
+	std::println("What is your name?");
+
+	let name = std::input();
+
+	greet_user(name);
+
+    return 0;
+end;
+
+main();
