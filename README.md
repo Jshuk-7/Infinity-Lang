@@ -18,6 +18,8 @@ let c = "hello";
 
 #### C++
 ```cpp
+#include <string>
+
 int a = 5;
 bool b = false;
 std::string c = "hello";
