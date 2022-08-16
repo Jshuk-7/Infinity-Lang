@@ -1,25 +1,25 @@
 fn create_game_board(width, height)
     let result = [];
 
-    std::list::push(result, " ");
+    std::list::push_back(result, " ");
 
     for i = 0 to width then
-        std::list::push(result, "-");
+        std::list::push_back(result, "-");
     end;
 
     for i = 0 to height then
-        std::list::push(result, "|");
+        std::list::push_back(result, "|");
 
-        for i = 0 to width then std::list::push(result, " ");
+        for i = 0 to width then std::list::push_back(result, " ");
 
-        std::list::push(result, "|");
-        std::list::push(result, "\n");
+        std::list::push_back(result, "|");
+        std::list::push_back(result, "\n");
     end;
 
-    std::list::push(result, " ");
+    std::list::push_back(result, " ");
 
     for i = 0 to width then
-        std::list::push(result, "-");
+        std::list::push_back(result, "-");
     end;
 
     return result;
@@ -40,7 +40,7 @@ end;
 fn player_hit_wall(player_location) -> NULL;
 
 fn process_input(input, game_board, player_char, player_location)
-    std::list::pop(game_board, player_location);
+    std::list::pop_at(game_board, player_location);
     std::list::insert(game_board, player_location, " ");
 
     if input == "w" then
@@ -69,7 +69,7 @@ fn main()
     std::list::update(game_board, player_location, player_char);
 
     std::clear();
-    std::println("Welcome to the Console Game!");
+    std::println("Welcome to the Console Game!, type 'break' to exit");
 
     while true then
         std::println(game_board_to_string(game_board, width, height));

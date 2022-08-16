@@ -19,7 +19,7 @@ fn main()
     std::println("Choose the elements for a " + std::to_string(len) + " number list");
 
     for i = 0 to len then
-        std::println("Enter element: " + std::to_string(i) + "");
+        std::println("Enter element: " + std::to_string(i + 1) + "");
         std::list::update(number_list, i, std::input_int());
     end;
 
@@ -30,7 +30,7 @@ fn main()
     std::println("\nChoose a target element to search for");
     let target = std::input_int();
 
-    std::println("Findind target: " + std::to_string(target) + "...");
+    std::println("Searching for target: " + std::to_string(target) + "...");
     let index = find(number_list, target);
 
     if index != NULL then

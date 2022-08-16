@@ -10,18 +10,24 @@ fn print_list_with_numbers(list)
 	end;
 end;
 
+fn run_example(example_list, index, file_path)
+	std::println(example_list/index);
+	std::run(file_path);
+end;
+
 fn main()
     let dir_path = "examples/";
 
     let example_hello_world_path    = dir_path + "hello_world.inf++";
     let example_input_path          = dir_path + "input.inf++";
     let example_map_path            = dir_path + "map.inf++";
-	let example_binary_search_path  = dir_path + "binary_search.inf++";
+	let example_simple_search_path  = dir_path + "simple_search.inf++";
 	let example_lists_path          = dir_path + "lists.inf++";
 	let example_game_path           = dir_path + "game.inf++";
 	let example_standard_lib_path   = dir_path + "standard_lib.inf++";
+	let example_test_path           = dir_path + "test.inf++";
 
-	let examples = ["exit", "hello world", "input", "map", "binary search", "lists", "game", "standard library"];
+	let examples = ["exit", "hello world", "input", "map", "simple search", "lists", "game", "standard library", "test"];
 
 	while true then
 		std::clear();
@@ -31,31 +37,26 @@ fn main()
 		let input = std::input_int();
 		std::clear();
 
-		if input == 1 then
-			std::println(examples/1);
-			std::run(example_hello_world_path);
-		elif input == 2 then
-			std::println(examples/2);
-			std::run(example_input_path);
-		elif input == 3 then
-			std::println(examples/3);
-			std::run(example_map_path);
-		elif input == 4 then
-			std::println(examples/4);
-			std::run(example_binary_search_path);
-		elif input == 5 then
-			std::println(examples/5);
-			std::run(example_lists_path);
-		elif input == 6 then
-			std::println(examples/6);
-			std::run(example_game_path);
-		elif input == 7 then
-			std::println(examples/7);
-			std::run(example_standard_lib_path);
-		elif std::to_string(input) == "" then
+		if std::to_string(input) == "" then
 			continue;
+		elif input == 1 then
+			run_example(examples, 1, example_hello_world_path);
+		elif input == 2 then
+			run_example(examples, 2, example_input_path);
+		elif input == 3 then
+			run_example(examples, 3, example_map_path);
+		elif input == 4 then
+			run_example(examples, 4, example_simple_search_path);
+		elif input == 5 then
+			run_example(examples, 5, example_lists_path);
+		elif input == 6 then
+			run_example(examples, 6, example_game_path);
+		elif input == 7 then
+			run_example(examples, 7, example_standard_lib_path);
+		elif input == 8 then
+			run_example(examples, 8, example_test_path);
 		elif input == NULL then
-			std::println(examples/0);
+			std::println("Exiting examples... Have fun!");
 			break;
 		else continue;
 

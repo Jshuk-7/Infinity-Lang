@@ -18,7 +18,7 @@ class Shell(object):
 		print("Type 'help', 'credits' or 'license' for more information")
 
 	def execute_program(self):
-		while 1:
+		while True:
 			text = input('>>> ')
 
 			if text.strip() == '': continue

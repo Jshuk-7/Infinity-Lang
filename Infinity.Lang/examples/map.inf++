@@ -10,19 +10,22 @@ fn map(list, func)
 	return list;
 end;
 
-fn multiple_of_ten(num)
-	let num = num * 10;
-	return num;
+fn make_multiple_of_ten(num) -> num * 10;
+
+fn do_map(func)
+	let list = [1, 2, 3, 4, 5];
+
+	std::println(list)
+
+	let list = map(list, func);
+
+	std::println("List mapped with: " + std::to_string(func));
+
+	std::println(list);
 end;
 
 fn main()
-	let list = [1, 2, 3, 4, 5];
-
-	let list = map(list, multiple_of_ten);
-
-	for i = 0 to std::list::len(list) then
-		std::println(list/i);
-	end;
+	do_map(make_multiple_of_ten);
 
     return 0;
 end;
