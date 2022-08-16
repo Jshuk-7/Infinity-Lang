@@ -2,7 +2,7 @@
 
 #// Use this line of code in the REPL to create
 #// a helper function to run all the examples
-#// fn run() -> std::run("examples/run_all.inf++");
+#// fn run() -> std::run("examples/run_all_examples.inf++");
 #// then simply call run() to get started
 
 fn print_list_with_numbers(list)
@@ -22,13 +22,13 @@ fn main()
     let example_hello_world_path    = dir_path + "hello_world.inf++";
     let example_input_path          = dir_path + "input.inf++";
     let example_map_path            = dir_path + "map.inf++";
-	let example_simple_search_path  = dir_path + "simple_search.inf++";
+	let example_linear_search_path  = dir_path + "linear_search.inf++";
+	let example_binary_search_path  = dir_path + "binary_search.inf++";
 	let example_lists_path          = dir_path + "lists.inf++";
 	let example_game_path           = dir_path + "game.inf++";
 	let example_standard_lib_path   = dir_path + "standard_lib.inf++";
-	let example_test_path           = dir_path + "test.inf++";
 
-	let examples = ["exit", "hello world", "input", "map", "simple search", "lists", "game", "standard library", "test"];
+	let examples = ["exit", "hello world", "input", "map", "linear search", "binary search", "lists", "game", "standard library"];
 
 	while true then
 		std::clear();
@@ -47,15 +47,15 @@ fn main()
 		elif input == 3 then
 			run_example(examples, 3, example_map_path);
 		elif input == 4 then
-			run_example(examples, 4, example_simple_search_path);
+			run_example(examples, 4, example_linear_search_path);
 		elif input == 5 then
-			run_example(examples, 5, example_lists_path);
+			run_example(examples, 5, example_linear_search_path);
 		elif input == 6 then
-			run_example(examples, 6, example_game_path);
+			run_example(examples, 6, example_lists_path);
 		elif input == 7 then
-			run_example(examples, 7, example_standard_lib_path);
+			run_example(examples, 7, example_game_path);
 		elif input == 8 then
-			run_example(examples, 8, example_test_path);
+			run_example(examples, 8, example_standard_lib_path);
 		elif input == NULL then
 			std::println("Exiting examples... Have fun!");
 			break;

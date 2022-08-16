@@ -237,6 +237,8 @@ class String(Value):
     def __repr__(self):
         return f'"{self.value}"'
 
+String.current_directory = String(os.getcwd())
+
 class List(Value):
     def __init__(self, elements):
         super().__init__()
@@ -975,6 +977,7 @@ global_symbol_table = SymbolTable()
 global_symbol_table.set("NULL", Number.null)
 global_symbol_table.set("false", Number.false)
 global_symbol_table.set("true", Number.true)
+global_symbol_table.set("std::path::current_directory", String.current_directory)
 global_symbol_table.set("std::math::PI", Number.math_PI)
 global_symbol_table.set("std::time::DAYS", List.days_of_the_week)
 global_symbol_table.set("std::time::MONTHS", List.months_of_the_year)

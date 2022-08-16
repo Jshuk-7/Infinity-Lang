@@ -1,0 +1,45 @@
+#// this function will return NULL if it can't find the target
+#// so only use this if you're sure the target is not the first element in the list
+fn find(list, target)
+    let length = std::list::len(list);
+
+    for i = 0 to length then
+        if (list/i) == target then
+            return i;
+        end;
+    end;
+
+    return NULL;
+end;
+
+fn main()
+    let number_list = [NULL, NULL, NULL, NULL, NULL, NULL, NULL];
+    let len = std::list::len(number_list);
+
+    std::println("Choose the elements for a " + std::to_string(len) + " number list");
+
+    for i = 0 to len then
+        std::println("Enter element: " + std::to_string(i + 1) + "");
+        std::list::update(number_list, i, std::input_int());
+    end;
+
+    std::clear();
+    std::println("List:");
+    std::println(number_list);
+
+    std::println("\nChoose a target element to search for");
+    let target = std::input_int();
+
+    std::println("Searching for target: " + std::to_string(target) + "...");
+    let index = find(number_list, target);
+
+    if index != NULL then
+        std::println("Found element: " + std::to_string(target) + ", at index: " + std::to_string(index));
+    else
+        std::println("Element is not in list!");
+    end;
+
+    return 0;
+end;
+
+main();

@@ -1,11 +1,16 @@
-#// this function will return NULL if it can't find the target
-#// so only use this if you're sure the target is not the first element in the list
 fn find(list, target)
-    let length = std::list::len(list);
+    let first = NULL;
+    let last = std::list::len(list) - 1;
 
-    for i = 0 to length then
-        if (list/i) == target then
-            return i;
+    while first <= last then
+        let midpoint = (first + last) / 2;
+
+        if (list/midpoint) == target then
+            return midpoint;
+        elif (list/midpoint) < target then
+            let first = midpoint + 1;
+        else
+            let last = midpoint - 1;
         end;
     end;
 
@@ -13,7 +18,7 @@ fn find(list, target)
 end;
 
 fn main()
-    let number_list = [NULL, NULL, NULL, NULL, NULL];
+    let number_list = [NULL, NULL, NULL, NULL, NULL, NULL, NULL];
     let len = std::list::len(number_list);
 
     std::println("Choose the elements for a " + std::to_string(len) + " number list");
@@ -41,5 +46,3 @@ fn main()
 
     return 0;
 end;
-
-main();
