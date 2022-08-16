@@ -38,8 +38,10 @@ if a == 5 then do_some_work() elif a == 6 then do_other_work() else do_work();
 if a == 5 then
     do_some_work();
 elif a == 6 then
-    do_other_work()
-else do_work();
+    do_other_work();
+else
+    do_work();
+end;
 ```
 
 #### C++
@@ -120,5 +122,43 @@ end;
 int foo(int a)
 {
     return a;
+}
+```
+
+---
+
+### Dynamic container:
+
+#### Infinity
+```rust
+fn print_container()
+    let container = std::list::new([1, 2, 3, 4]);
+
+    std::list::push_back(container, 5);
+
+    for i = 0 to std::list::len(container) then
+        let index = std::to_string(i);
+        let value = std::to_string(container/i);
+
+        std::println("Element at index: " + index + " = " + value);
+    end;
+end;
+```
+
+#### C++
+```cpp
+#include <iostream>
+#include <vector>
+
+void print_container()
+{
+    std::vector<int> container = std::vector<int>(1, 2, 3, 4);
+
+    container.emplace_back(5);
+
+    for (size_t i = 0; i < container.size(); i++)
+    {
+        std::cout << "Element at index: " << i << " = " << container[i] << '\n';
+    }
 }
 ```

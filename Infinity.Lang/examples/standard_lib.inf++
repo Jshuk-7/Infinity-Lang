@@ -14,10 +14,14 @@ fn sort_list()
 end;
 
 fn ascii_letters()
-    let character = std::itoa("65");
+    let character = std::itoa(65);
 
-    if character == std::atoi("a") then
-        std::println("Character is " + std::itoa("65"));
+    if not std::is_instance("std::string", character) then
+        
+    end;
+
+    if character == std::itoa(std::atoi("a")) then
+        std::println("Character is " + std::itoa(65));
     end;
 end;
 
