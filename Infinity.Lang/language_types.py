@@ -567,6 +567,9 @@ class BuiltInFunction(BaseFunction):
         elif type_string.value == "std::fn":
             is_fn = isinstance(exec_ctx.symbol_table.get('value'), BaseFunction)
             return RTResult().success(Number.true if is_fn else Number.false)
+        elif type_string.value == "std::built_in_fn":
+            is_fn = isinstance(exec_ctx.symbol_table.get('value'), BuiltInFunction)
+            return RTResult().success(Number.true if is_fn else Number.false)
         else:
             return RTResult().failure(RTError(
                 self.pos_start, self.pos_end,
@@ -748,7 +751,7 @@ class BuiltInFunction(BaseFunction):
         list_ = exec_ctx.symbol_table.get('list')
 
         if not isinstance(list_, List):
-            return RTResult().failure(RTError(self.pos_start, self.pos_end, f"Cannot sort '{list_.value}', must be a list"))
+            return RTResult().failure(RTError(self.pos_start, self.pos_end, f"Cannot sort '{list_.value}', must be a list", exec_ctx))
 
         list_.elements.sort(key=lambda x: x.value)
 
@@ -759,7 +762,7 @@ class BuiltInFunction(BaseFunction):
         list_ = exec_ctx.symbol_table.get('list')
 
         if not isinstance(list_, List):
-            return RTResult().failure(RTError(self.pos_start, self.pos_end, f"Cannot sort '{list_.value}', must be a list"))
+            return RTResult().failure(RTError(self.pos_start, self.pos_end, f"Cannot sort '{list_.value}', must be a list", exec_ctx))
 
         list_.elements.sort(key=lambda x: x.value, reverse=True)
 
@@ -986,6 +989,13 @@ global_symbol_table.set("std::input", BuiltInFunction.input)
 global_symbol_table.set("std::input_int", BuiltInFunction.input_int)
 global_symbol_table.set("std::clear", BuiltInFunction.clear)
 
+#! Types
+global_symbol_table.set("std::is_instance", BuiltInFunction.is_instance)
+global_symbol_table.set("std::int::new", BuiltInFunction.int_new)
+global_symbol_table.set("std::string::new", BuiltInFunction.string_new)
+global_symbol_table.set("std::list::new", BuiltInFunction.list_new)
+global_symbol_table.set("std::copy", BuiltInFunction.value_copy)
+
 #! Conversions
 global_symbol_table.set("std::to_int", BuiltInFunction.to_int)
 global_symbol_table.set("std::to_string", BuiltInFunction.to_string)
@@ -1011,12 +1021,7 @@ global_symbol_table.set("std::list::len", BuiltInFunction.len)
 global_symbol_table.set("std::list::nth", BuiltInFunction.nth)
 
 #! Misc
-global_symbol_table.set("std::is_instance", BuiltInFunction.is_instance)
-global_symbol_table.set("std::int::new", BuiltInFunction.int_new)
-global_symbol_table.set("std::string::new", BuiltInFunction.string_new)
-global_symbol_table.set("std::list::new", BuiltInFunction.list_new)
 global_symbol_table.set("std::time::now", BuiltInFunction.now)
-global_symbol_table.set("std::copy", BuiltInFunction.value_copy)
 global_symbol_table.set("std::runtime_error", BuiltInFunction.runtime_error)
 global_symbol_table.set("std::version", BuiltInFunction.version)
 global_symbol_table.set("std::run", BuiltInFunction.run)

@@ -16,8 +16,8 @@ end;
 fn ascii_letters()
     let character = std::itoa(65);
 
-    if not std::is_instance("std::string", character) then
-        
+    if not std::is_instance("std::string", std::copy(character)) then
+        std::runtime_error("Expected a string, found " + std::to_string(character));
     end;
 
     if character == std::itoa(std::atoi("a")) then

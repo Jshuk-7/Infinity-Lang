@@ -3,6 +3,7 @@
 #// Use this line of code in the REPL to create
 #// a helper function to run all the examples
 #// fn run() -> std::run("examples/run_all.inf++");
+#// then simply call run() to get started
 
 fn print_list_with_numbers(list)
 	for i = 0 to std::list::len(list) then

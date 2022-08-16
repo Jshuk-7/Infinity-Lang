@@ -1,5 +1,5 @@
-let vertical_barrier   = std::string::new("V");
-let horizontal_barrier = std::string::new("H");
+let vertical_barrier   = std::string::new("-");
+let horizontal_barrier = std::string::new("|");
 
 fn create_game_board(width, height)
     let result = [];
@@ -83,7 +83,7 @@ end;
 
 fn print_controls()
     std::clear();
-    std::println("Use ['w' 'a' 's' 'd'] to move the player around or type 'exit' to exit");
+    std::println("Use ['w' 'a' 's' 'd'] to move the player around or type 'exit' to leave");
 end;
 
 fn main()

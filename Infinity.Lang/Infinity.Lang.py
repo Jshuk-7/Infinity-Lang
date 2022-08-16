@@ -1,7 +1,7 @@
-import shell
+from shell import Shell
 
 def main():
-    shell.Shell()
+    Shell()
 
 if __name__ == "__main__":
     main()

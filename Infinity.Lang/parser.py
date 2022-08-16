@@ -115,7 +115,7 @@ class Parser:
                 return res.failure(
                     InvalidSyntaxError(self.current_tok.pos_start,
 						self.current_tok.pos_end,
-						"Expected identifier"
+						f"Expected identifier, found '{self.current_tok.type}'"
 					))
 
             var_name = self.current_tok
@@ -474,9 +474,9 @@ class Parser:
 
         if self.current_tok.type != TT_IDENTIFIER:
             return res.failure(
-                InvalidSyntaxError(self.current_tok.pos_start,
-					self.current_tok.pos_end,
-					f"Expected identifier"
+                InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+					f"Expected identifier, found '{self.current_tok.type}'"
 				))
 
         var_name = self.current_tok
@@ -648,7 +648,7 @@ class Parser:
                     return res.failure(
                         InvalidSyntaxError(self.current_tok.pos_start,
 							self.current_tok.pos_end,
-							f"Expected identifier"
+							f"Expected identifier, found '{self.current_tok.type}'"
 						))
 
                 arg_name_toks.append(self.current_tok)
