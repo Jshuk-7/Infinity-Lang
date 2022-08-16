@@ -416,8 +416,7 @@ class BuiltInFunction(BaseFunction):
     execute_println.arg_names = ['value']
 
     def execute_println_ret(self, exec_ctx):
-        return RTResult().success(
-            String(str(exec_ctx.symbol_table.get('value'))))
+        return RTResult().success(String(str(exec_ctx.symbol_table.get('value'))))
     execute_println_ret.arg_names = ['value']
 
     def execute_input(self, exec_ctx):
@@ -447,7 +446,8 @@ class BuiltInFunction(BaseFunction):
         if not isinstance(string, String):
             return RTResult().failure(RTError(
                 self.pos_start, self.pos_end,
-                f"Expected string, found '{string.value}'"
+                f"Expected string, found '{string.value}'",
+                exec_ctx
             ))
 
         return RTResult().success(Number(ord(string.value)))
@@ -459,7 +459,8 @@ class BuiltInFunction(BaseFunction):
         if not isinstance(number, Number):
             return RTResult().failure(RTError(
                 self.pos_start, self.pos_end,
-                f"Expected int, found '{number.value}'"
+                f"Expected int, found '{number.value}'",
+                exec_ctx
             ))
 
         return RTResult().success(String(chr(number.value)))

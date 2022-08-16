@@ -1,25 +1,28 @@
+let vertical_barrier   = std::string::new("V");
+let horizontal_barrier = std::string::new("H");
+
 fn create_game_board(width, height)
     let result = [];
 
     std::list::push_back(result, " ");
 
     for i = 0 to width then
-        std::list::push_back(result, "-");
+        std::list::push_back(result, vertical_barrier);
     end;
 
     for i = 0 to height then
-        std::list::push_back(result, "|");
+        std::list::push_back(result, horizontal_barrier);
 
         for i = 0 to width then std::list::push_back(result, " ");
 
-        std::list::push_back(result, "|");
+        std::list::push_back(result, horizontal_barrier);
         std::list::push_back(result, "\n");
     end;
 
     std::list::push_back(result, " ");
 
     for i = 0 to width then
-        std::list::push_back(result, "-");
+        std::list::push_back(result, vertical_barrier);
     end;
 
     return result;
@@ -37,48 +40,80 @@ fn game_board_to_string(game_board, width, height)
     return result;
 end;
 
-fn player_hit_wall(player_location) -> NULL;
+fn update_player_location(game_board, player_location, player_char, amount, add)
+    if add then
+        let player_location = player_location + amount;
+        std::list::update(game_board, let index = player_location, player_char);
+    else
+        let player_location = player_location - amount;
+        std::list::update(game_board, let index = player_location, player_char);
+    end;
+
+    return player_location;
+end;
 
 fn process_input(input, game_board, player_char, player_location)
     std::list::pop_at(game_board, player_location);
     std::list::insert(game_board, player_location, " ");
 
+    let p_vertical_target = 23;
+    let p_horizontal_target = 1;
+
+    #// check if each potenial position the player can move to is a barrier, if so do nothing
     if input == "w" then
-        let player_location = player_location - 20;
-        std::list::update(game_board, player_location, player_char);
+        if not (game_board/(player_location - p_vertical_target) == vertical_barrier) then
+            let player_location = update_player_location(game_board, player_location, player_char, p_vertical_target, let add = false);
+        end;
     elif input == "a" then
-        let player_location = player_location - 1;
-        std::list::update(game_board, player_location, player_char);
+        if not (game_board/(player_location - p_horizontal_target) == horizontal_barrier) then
+            let player_location = update_player_location(game_board, player_location, player_char, p_horizontal_target, let add = false);
+        end;
     elif input == "s" then
-        let player_location = player_location + 20;
-        std::list::update(game_board, player_location, player_char);
+        if not (game_board/(player_location + p_vertical_target) == vertical_barrier) then
+            let player_location = update_player_location(game_board, player_location, player_char, p_vertical_target, let add = true);
+        end;
     elif input == "d" then
-        let player_location = player_location + 1;
-        std::list::update(game_board, player_location, player_char);
+        if not (game_board/(player_location + p_horizontal_target) == horizontal_barrier) then
+            let player_location = update_player_location(game_board, player_location, player_char, p_horizontal_target, let add = true);
+        end;
     end;
 
     return player_location;
+end;
+
+fn print_controls()
+    std::clear();
+    std::println("Use ['w' 'a' 's' 'd'] to move the player around or type 'exit' to exit");
 end;
 
 fn main()
     let width = 20;
     let height = 10;
     let game_board = create_game_board(width, height);
-    let player_location = 25;
-    let player_char = "P";
+
+    std::println("Welcome to the Console Game!");
+    std::println("Choose a single character to be your player, i.e. 'P'");
+    let player_char_selection = std::input();
+
+    let player_location = 30;
+    let player_char = std::to_string(player_char_selection);
     std::list::update(game_board, player_location, player_char);
 
-    std::clear();
-    std::println("Welcome to the Console Game!, type 'break' to exit");
-
     while true then
+        print_controls();
         std::println(game_board_to_string(game_board, width, height));
 
         let input = std::input();
 
+        if input == ""     then continue;
+        if input == "exit" then break;
+
+        #// skip processing input if user types something other than controls
+        let user_typed_random_string = (input != "w") and (input != "a") and (input != "s") and (input != "d");
+        if user_typed_random_string then continue;
+
         let player_location = process_input(input, game_board, player_char, player_location);
 
-        if input == "break" then break;
     end;
 
     return 0;

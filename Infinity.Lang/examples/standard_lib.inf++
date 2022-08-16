@@ -13,8 +13,18 @@ fn sort_list()
     std::println(list);
 end;
 
+fn ascii_letters()
+    let character = std::itoa("65");
+
+    if character == std::atoi("a") then
+        std::println("Character is " + std::itoa("65"));
+    end;
+end;
+
 fn main()
     sort_list();
+
+    ascii_letters();
 
     return 0;
 end;

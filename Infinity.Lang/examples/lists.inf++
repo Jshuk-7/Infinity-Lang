@@ -20,7 +20,7 @@ fn main()
     std::println(list);
     std::println("What character(s) would you like to join the list with?");
     let response = std::input();
-    std::println("Joined list with " + "'" + response + "'");
+    std::println("List joined with " + "'" + response + "'");
     let response = response + " ";
     std::println(join(list, response));
 
